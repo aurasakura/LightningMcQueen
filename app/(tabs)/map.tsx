@@ -1,27 +1,8 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import MapView, { Callout, Marker } from 'react-native-maps';
-
-// Points of interest
-const pointsOfInterest: {
-  id: number;
-  title: string;
-  price: string;
-  image: any; // require local image
-  coords: { latitude: number; longitude: number };
-}[] = [
-  { id: 1, title: 'Tesla Model 3', price: '€45,000', image: require('../../assets/TeslaModel3.jpg'), coords: { latitude: 55.3987, longitude: 10.3852 } },
-  { id: 2, title: 'Nissan Leaf', price: '€32,000', image: require('../../assets/NissanLeaf.jpg'), coords: { latitude: 55.4021, longitude: 10.3924 } },
-  { id: 3, title: 'BMW i3', price: '€38,000', image: require('../../assets/BMWi3.jpeg'), coords: { latitude: 55.3945, longitude: 10.3981 } },
-//   { id: 4, title: 'Volkswagen ID.4', price: '€42,000', image: require('./assets/volkswagen.png'), coords: { latitude: 55.3892, longitude: 10.3847 } },
-//   { id: 5, title: 'Hyundai Kona Electric', price: '€36,000', image: require('./assets/hyundai.png'), coords: { latitude: 55.4003, longitude: 10.3963 } },
-//   { id: 6, title: 'Audi e-tron', price: '€70,000', image: require('./assets/audi.png'), coords: { latitude: 55.3978, longitude: 10.3899 } },
-//   { id: 7, title: 'Polestar 2', price: '€50,000', image: require('./assets/polestar.png'), coords: { latitude: 55.3916, longitude: 10.3815 } },
-//   { id: 8, title: 'Kia EV6', price: '€45,000', image: require('./assets/kia.png'), coords: { latitude: 55.3933, longitude: 10.3942 } },
-//   { id: 9, title: 'Ford Mustang Mach-E', price: '€55,000', image: require('./assets/ford.png'), coords: { latitude: 55.3995, longitude: 10.3876 } },
-//   { id: 10, title: 'Renault Zoe', price: '€30,000', image: require('./assets/renault.png'), coords: { latitude: 55.4012, longitude: 10.3909 } },
-];
+import { View, Text, Image, StyleSheet } from 'react-native';
+import MapView, { Marker, Callout } from 'react-native-maps';
+import { Ionicons } from '@expo/vector-icons';
+import { carData } from '../data'; // ✅ import from app/data.ts
 
 export default function MapScreen() {
   return (
@@ -34,12 +15,10 @@ export default function MapScreen() {
         longitudeDelta: 0.02,
       }}
     >
-      {pointsOfInterest.map((poi) => (
+      {carData.map((poi) => (
         <Marker key={poi.id} coordinate={poi.coords}>
-          {/* Icon marker */}
           <Ionicons name="location" size={30} color="red" />
 
-          {/* Popup */}
           <Callout tooltip>
             <View style={styles.callout}>
               <Image source={poi.image} style={styles.image} />
@@ -67,7 +46,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 5, // Android shadow
+    elevation: 5,
   },
   image: {
     width: 50,
