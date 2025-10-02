@@ -1,8 +1,7 @@
 // app/(tabs)/_layout.tsx
-import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
-import { Tabs, useSegments, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Tabs, useRouter, useSegments } from 'expo-router';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function TabsLayout() {
   const segments = useSegments();
