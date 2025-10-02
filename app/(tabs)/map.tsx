@@ -1,65 +1,138 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import MapView, { Marker, Callout } from 'react-native-maps';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, Modal, TouchableOpacity, Dimensions, Linking } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
-import { carData } from '../data'; // ✅ import from app/data.ts
+import { carData } from '../../backend/_data'; // import your car data
+import { useRouter } from 'expo-router';
 
 export default function MapScreen() {
-  return (
-    <MapView
-      style={{ flex: 1 }}
-      initialRegion={{
-        latitude: 55.3962,
-        longitude: 10.3906,
-        latitudeDelta: 0.02,
-        longitudeDelta: 0.02,
-      }}
-    >
-      {carData.map((poi) => (
-        <Marker key={poi.id} coordinate={poi.coords}>
-          <Ionicons name="location" size={30} color="red" />
+  const [selectedPoi, setSelectedPoi] = useState<typeof carData[0] | null>(null);
+  const router = useRouter();
 
-          <Callout tooltip>
-            <View style={styles.callout}>
-              <Image source={poi.image} style={styles.image} />
-              <View style={{ marginLeft: 8 }}>
-                <Text style={styles.title}>{poi.title}</Text>
-                <Text style={styles.price}>{poi.price}</Text>
-              </View>
-            </View>
-          </Callout>
-        </Marker>
-      ))}
-    </MapView>
+  const closeModal = () => setSelectedPoi(null);
+
+  const openMaps = (lat: number, lng: number) => {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+    Linking.openURL(url);
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <MapView
+        style={{ flex: 1 }}
+        initialRegion={{
+          latitude: 55.3962,
+          longitude: 10.3906,
+          latitudeDelta: 0.02,
+          longitudeDelta: 0.02,
+        }}
+      >
+        {carData.map((poi) => (
+          <Marker
+            key={poi.id}
+            coordinate={poi.coords}
+            onPress={() => setSelectedPoi(poi)}
+          >
+            <Ionicons name="location" size={30} color="red" />
+          </Marker>
+        ))}
+      </MapView>
+
+      {/* Centered Modal */}
+      <Modal
+        visible={!!selectedPoi}
+        transparent
+        animationType="fade"
+        onRequestClose={closeModal}
+      >
+        <TouchableOpacity style={styles.modalOverlay} onPress={closeModal} activeOpacity={1}>
+          <View style={styles.modalContent}>
+            {selectedPoi && (
+              <>
+                <Image source={selectedPoi.image} style={styles.modalImage} />
+
+                <View style={styles.modalInfo}>
+                  <Text style={styles.modalTitle}>{selectedPoi.title}</Text>
+                  <Text style={styles.modalPrice}>{selectedPoi.price}</Text>
+
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => router.push(`/id?id=${selectedPoi.id}`)}
+                  >
+                    <Text style={styles.buttonText}>Find More Details</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={[styles.button, { backgroundColor: '#2196F3' }]}
+                    onPress={() =>
+                      openMaps(selectedPoi.coords.latitude, selectedPoi.coords.longitude)
+                    }
+                  >
+                    <Text style={styles.buttonText}>Find Location</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            )}
+          </View>
+        </TouchableOpacity>
+      </Modal>
+    </View>
   );
 }
 
+const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
-  callout: {
-    flexDirection: 'row',
-    backgroundColor: '#fff',
-    padding: 8,
-    borderRadius: 8,
-    width: 220,
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
     alignItems: 'center',
+  },
+  modalContent: {
+    flexDirection: 'row', // horizontal layout
+    backgroundColor: '#fff',
+    padding: 24,
+    borderRadius: 16,
+    width: width * 0.9,
+    alignItems: 'center', // vertical center of image and text/buttons
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
-    shadowRadius: 4,
+    shadowRadius: 5,
     elevation: 5,
   },
-  image: {
-    width: 50,
-    height: 50,
+  modalImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 8,
     resizeMode: 'contain',
-    borderRadius: 4,
   },
-  title: {
+  modalInfo: {
+    flex: 1,
+    marginLeft: 16,
+    justifyContent: 'center',
+  },
+  modalTitle: {
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 18,
+    marginBottom: 4,
   },
-  price: {
+  modalPrice: {
     color: 'green',
-    marginTop: 4,
+    marginBottom: 12,
+    fontSize: 16,
+  },
+  button: {
+    backgroundColor: '#4b7b8a',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
