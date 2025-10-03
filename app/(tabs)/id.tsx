@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { carData } from '../../backend/_data';
+import { carData } from '@/backend/_data';
 import * as Linking from 'expo-linking';
 
 export default function CarDetails() {

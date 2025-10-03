@@ -4,5 +4,8 @@ export type Car = {
     price: string;
     image: any;
     coords: { latitude: number; longitude: number };
-    isAvailable: boolean;
+    information: string;
+    mileage: string;
+    seats: number;
+    ratings: number;
 };

@@ -7,6 +7,8 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import MapView, { Callout, Marker } from 'react-native-maps';
 import {Car} from "@/constants/Car";
 import {fetchCars} from "@/services/CarService";
+import {useRouter} from "expo-router";
+import Slider from "@react-native-community/slider";
 
 // Points of interest
 // const pointsOfInterest: {
@@ -143,69 +145,69 @@ export default function MapScreen() {
         ))}
       </MapView>
 
-      {/* Filter Modal */}
-      <Modal visible={filterVisible} transparent animationType="slide">
-        <View style={styles.modalOverlay}>
-          <View style={styles.filterModal}>
-            <Text style={styles.modalTitle}>Filter Cars</Text>
-            <ScrollView>
-              {/* Min Price */}
-              <Text>Min Price (DKK/day): {minPrice || 0}</Text>
-              <Slider
-                style={{ width: '100%', height: 40 }}
-                minimumValue={0}
-                maximumValue={5000}
-                step={50}
-                value={Number(minPrice) || 0}
-                onValueChange={(value) => setMinPrice(value.toString())}
-                minimumTrackTintColor="#1EB1FC"
-                maximumTrackTintColor="#d3d3d3"
-              />
+            {/* Filter Modal */}
+            <Modal visible={filterVisible} transparent animationType="slide">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.filterModal}>
+                        <Text style={styles.modalTitle}>Filter Cars</Text>
+                        <ScrollView>
+                            {/* Min Price */}
+                            <Text>Min Price (DKK/day): {minPrice || 0}</Text>
+                            <Slider
+                                style={{width: '100%', height: 40}}
+                                minimumValue={0}
+                                maximumValue={5000}
+                                step={50}
+                                value={Number(minPrice) || 0}
+                                onValueChange={(value) => setMinPrice(value.toString())}
+                                minimumTrackTintColor="#1EB1FC"
+                                maximumTrackTintColor="#d3d3d3"
+                            />
 
-              {/* Max Price */}
-              <Text>Max Price (DKK/day): {maxPrice || 0}</Text>
-              <Slider
-                style={{ width: '100%', height: 40 }}
-                minimumValue={0}
-                maximumValue={5000}
-                step={50}
-                value={Number(maxPrice) || 0}
-                onValueChange={(value) => setMaxPrice(value.toString())}
-                minimumTrackTintColor="#1EB1FC"
-                maximumTrackTintColor="#d3d3d3"
-              />
+                            {/* Max Price */}
+                            <Text>Max Price (DKK/day): {maxPrice || 0}</Text>
+                            <Slider
+                                style={{width: '100%', height: 40}}
+                                minimumValue={0}
+                                maximumValue={5000}
+                                step={50}
+                                value={Number(maxPrice) || 0}
+                                onValueChange={(value) => setMaxPrice(value.toString())}
+                                minimumTrackTintColor="#1EB1FC"
+                                maximumTrackTintColor="#d3d3d3"
+                            />
 
-              {/* Min Seats */}
-              <Text>Min Seats: {minSeats || 0}</Text>
-              <Slider
-                style={{ width: '100%', height: 40 }}
-                minimumValue={1}
-                maximumValue={8}
-                step={1}
-                value={Number(minSeats) || 1}
-                onValueChange={(value) => setMinSeats(value.toString())}
-                minimumTrackTintColor="#1EB1FC"
-                maximumTrackTintColor="#d3d3d3"
-              />
+                            {/* Min Seats */}
+                            <Text>Min Seats: {minSeats || 0}</Text>
+                            <Slider
+                                style={{width: '100%', height: 40}}
+                                minimumValue={1}
+                                maximumValue={8}
+                                step={1}
+                                value={Number(minSeats) || 1}
+                                onValueChange={(value) => setMinSeats(value.toString())}
+                                minimumTrackTintColor="#1EB1FC"
+                                maximumTrackTintColor="#d3d3d3"
+                            />
 
-              {/* Min Ratings */}
-              <Text>Min Ratings: {minRatings || 0}</Text>
-              <Slider
-                style={{ width: '100%', height: 40 }}
-                minimumValue={1}
-                maximumValue={5}
-                step={1}
-                value={Number(minRatings) || 1}
-                onValueChange={(value) => setMinRatings(value.toString())}
-                minimumTrackTintColor="#1EB1FC"
-                maximumTrackTintColor="#d3d3d3"
-              />
-            </ScrollView>
+                            {/* Min Ratings */}
+                            <Text>Min Ratings: {minRatings || 0}</Text>
+                            <Slider
+                                style={{width: '100%', height: 40}}
+                                minimumValue={1}
+                                maximumValue={5}
+                                step={1}
+                                value={Number(minRatings) || 1}
+                                onValueChange={(value) => setMinRatings(value.toString())}
+                                minimumTrackTintColor="#1EB1FC"
+                                maximumTrackTintColor="#d3d3d3"
+                            />
+                        </ScrollView>
 
-            {/* Apply Filters */}
-            <TouchableOpacity style={styles.button} onPress={applyFilters}>
-              <Text style={styles.buttonText}>Apply Filters</Text>
-            </TouchableOpacity>
+                        {/* Apply Filters */}
+                        <TouchableOpacity style={styles.button} onPress={applyFilters}>
+                            <Text style={styles.buttonText}>Apply Filters</Text>
+                        </TouchableOpacity>
 
             {/* Reset Filters */}
             <TouchableOpacity
@@ -272,8 +274,7 @@ export default function MapScreen() {
     </View>
   );
 }
-
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   filterButton: {
