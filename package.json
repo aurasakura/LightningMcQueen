@@ -8,14 +8,15 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "server": "json-server --watch db.json --port 3000 --static ./"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
     "@ptomasroos/react-native-multi-slider": "^2.2.2",
+    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-community/slider": "^5.0.1",
     "@react-native-picker/picker": "2.11.1",
-    "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-navigation/bottom-tabs": "^7.4.7",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.17",
@@ -32,6 +33,7 @@
     "expo-symbols": "~1.0.7",
     "expo-system-ui": "~6.0.7",
     "expo-web-browser": "~15.0.8",
+    "json-server": "^1.0.0-beta.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.4",

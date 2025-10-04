@@ -1,5 +1,5 @@
 // history.tsx
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     View,
     Text,
@@ -7,48 +7,25 @@ import {
     FlatList,
     TouchableOpacity,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-
-const historyData = [
-    {
-        id: '1',
-        name: 'Toyota Prius Hybrid',
-        date: '03 Jul 2024',
-        price: '$405',
-        status: 'Completed',
-    },
-    {
-        id: '2',
-        name: 'Toyota Camry Hybrid',
-        date: '03 Jul 2024',
-        price: '$405',
-        status: 'Completed',
-    },
-    {
-        id: '3',
-        name: 'Toyota RAV4 Hybrid',
-        date: '03 Jul 2024',
-        price: 'Cancelled',
-        status: 'Cancelled',
-    },
-    {
-        id: '4',
-        name: 'Hyundai Tucson Hybrid Auto Expo',
-        date: '03 Jul 2024',
-        price: '$405',
-        status: 'Completed',
-    },
-    {
-        id: '5',
-        name: 'Lexus NX Plug-In Hybrid',
-        date: '03 Jul 2024',
-        price: '$405',
-        status: 'Completed',
-    },
-];
+import {Ionicons} from '@expo/vector-icons';
+import {getCarsHistoryFromStorage} from "@/api/Storage";
+import {Car} from "@/constants/Car";
 
 export default function HistoryScreen() {
-    const renderItem = ({ item }) => {
+    const [historyData, setHistoryData] = useState<Car[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getCarsHistoryFromStorage();
+                setHistoryData(data);
+            } catch (err) {
+                console.error("Error loading cars history:", err);
+            }
+        };
+        fetchData();
+    }, []);
+    const renderItem = ({item}) => {
         const isCancelled = item.status === 'Cancelled';
 
         return (
