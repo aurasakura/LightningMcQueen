@@ -41,3 +41,10 @@ app-example
 # generated native folders
 /ios
 /android
+/.idea/.gitignore
+/gitold
+/.idea/LightningMcQueen.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
