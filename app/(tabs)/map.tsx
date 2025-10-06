@@ -1,5 +1,9 @@
-import {Ionicons} from '@expo/vector-icons';
-import React, {useEffect, useState} from 'react';
+import { Car } from "@/constants/Car";
+import { fetchCars } from "@/services/CarService";
+import { Ionicons } from '@expo/vector-icons';
+import Slider from "@react-native-community/slider";
+import { useRouter } from "expo-router";
+import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator, Dimensions,
     Image,
@@ -11,11 +15,7 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-import MapView, {Callout, Marker} from 'react-native-maps';
-import {Car} from "@/constants/Car";
-import {fetchCars} from "@/services/CarService";
-import {useRouter} from "expo-router";
-import Slider from "@react-native-community/slider";
+import MapView, { Marker } from 'react-native-maps';
 
 
 async function loadCars(): Promise<Car[]> {
@@ -416,6 +416,3 @@ const styles = StyleSheet.create({
         marginTop: 4,
     },
 });
-
-
-
