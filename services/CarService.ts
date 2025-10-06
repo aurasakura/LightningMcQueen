@@ -1,7 +1,7 @@
 import {Car} from "@/constants/Car";
 import {getCarsFromStorage, saveCarsToStorage} from "@/api/Storage";
 import axios from "axios";
-const LOCAL_IP = '192.168.1.250';
+const LOCAL_IP = '192.168.1.29'; // edit your IP here
 const API_URL = `http://${LOCAL_IP}:3000/cars`;
 
 export const fetchCars = async (): Promise<Car[]> => {

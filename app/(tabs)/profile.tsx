@@ -1,23 +1,22 @@
 import React from "react";
-import{
-    SafeAreaView,
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    Image,
+import {
     Alert,
+    SafeAreaView,
     ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from "react-native";
 
-import {Ionicons} from "@expo/vector-icons";
-import {useRouter} from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 export default  function ProfileScreen() {
     const router = useRouter();
 
     const onEdit = () => Alert.alert("Edit profile", "Hook this up to your edit form.");
-    const onFavs = () => Alert.alert("Favourites", "Navigate to your favourites list.");
+    const onFavs = () => router.push("/favorites");
     const onLanguage = () => Alert.alert("Language", "Open language selector.");
     const onLogin = () => Alert.alert("Log In", "Navigate to auth flow.");
     const onLogout = () => Alert.alert("Log Out", "Clear auth state here.");

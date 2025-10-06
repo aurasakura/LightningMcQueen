@@ -8,4 +8,5 @@ export type Car = {
     mileage: string;
     seats: number;
     ratings: number;
+    usage: number;
 };
