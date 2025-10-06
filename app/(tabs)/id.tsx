@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Modal} from 'react-native';
-import {useRouter, useLocalSearchParams} from 'expo-router';
+import { getCarsFromStorage, saveCarToHistory } from "@/api/Storage";
+import { Car } from "@/constants/Car";
 import * as Linking from 'expo-linking';
-import {getCarsFromStorage, getCarsHistoryFromStorage, saveCarToHistory} from "@/api/Storage";
-import {Car} from "@/constants/Car";
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { Image, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function CarDetails() {
     const {id, from} = useLocalSearchParams<{ id: string; from?: string }>();
@@ -16,9 +16,9 @@ export default function CarDetails() {
                 let selectedCar;
                 const data = await getCarsFromStorage();
                 if (data) {
-                    selectedCar = data.find((c) => c.id === id);
+                    selectedCar = data.find((c) => c.id === Number(id));
                 }
-                setCar(selectedCar);
+                setCar(selectedCar ?? null);
             } catch (err) {
                 console.error("Error loading cars history:", err);
             }
@@ -50,7 +50,7 @@ export default function CarDetails() {
                 style={styles.backButton}
                 onPress={() => {
                     if (from) {
-                        router.push(`/${from}`);
+                        router.push(`/${from}` as any);
                     } else {
                         router.back();
                     }
